@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Amit Singh — Full Stack Developer</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init({publicKey:'0gTwR49CzQd4ecsEw'});</script>
 <style>
 :root{--tr:0.4s cubic-bezier(0.23,1,0.32,1)}
 
@@ -406,12 +408,22 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:36
   .h-stats{position:static;margin-top:40px;flex-direction:row;gap:28px}
   .stat-item{text-align:left}
   .proj-grid{grid-template-columns:1fr}
-  .proj-flip{height:400px}
-  .aws-grid{grid-template-columns:repeat(3,1fr)}
+  .proj-flip{height:420px}
+  /* Mobile tap to flip */
+  .proj-flip.flipped .proj-flip-inner{transform:rotateY(180deg)}
+  /* AWS grid — 3 col centered */
+  .aws-grid{grid-template-columns:repeat(3,1fr);gap:10px;padding:0 4px}
+  .aws-item{padding:16px 10px}
   footer{flex-direction:column;gap:14px;text-align:center}
   .av-outer{width:280px}
   .av-box{width:260px;height:260px}
   .fb1,.fb2{display:none}
+  /* Hide cursor on mobile */
+  .cursor,.cursor-ring{display:none}
+  body{cursor:auto}
+  /* Proj hint text change for mobile */
+  .proj-hint::after{content:'Tap to flip ↻'}
+  .proj-hint{font-size:0}
 }
 </style>
 </head>
@@ -866,6 +878,19 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:36
   },100);
 })();
 
+/* ── MOBILE TAP TO FLIP ── */
+if('ontouchstart' in window){
+  document.querySelectorAll('.proj-flip').forEach(function(card){
+    card.addEventListener('click',function(){
+      this.classList.toggle('flipped');
+    });
+  });
+  /* Hide cursor on touch devices */
+  document.getElementById('cursor').style.display='none';
+  document.getElementById('cursorRing').style.display='none';
+  document.body.style.cursor='auto';
+}
+
 /* ── CURSOR ── */
 var cur=document.getElementById('cursor');
 var rng=document.getElementById('cursorRing');
@@ -907,14 +932,6 @@ document.querySelectorAll('.reveal,.tl-item').forEach(function(el){revObs.observ
 /* ══════════════════════════════════════
    CONTACT FORM — EmailJS + Full Security
 ══════════════════════════════════════ */
-
-/* EmailJS init */
-(function(){
-  var s=document.createElement('script');
-  s.src='https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-  s.onload=function(){ emailjs.init({publicKey:'0gTwR49CzQd4ecsEw'}); };
-  document.head.appendChild(s);
-})();
 
 /* Char counter */
 function updateCharCount(){
